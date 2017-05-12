@@ -32,7 +32,7 @@ prep:
 	@mkdir -p rpmbuild/{BUILD,BUIDLROOT,RPMS,SOURCES,SPECS,SRPMS}
 
 clean:
-	$(RM) $(NAME)*.tar.gz $(SPEC)
+	$(RM) $(NAME)*.tar.gz
 	$(RM) -r rpmbuild
 	@find -name '*.py[co]' -delete
 	make clean -C docs/

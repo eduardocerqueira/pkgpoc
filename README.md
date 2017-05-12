@@ -1,4 +1,4 @@
-# demo
+# pkgpoc
 
 It is a study purposes project. I don't expect to provide support or even
 maintain for others platforms.
@@ -7,7 +7,9 @@ maintain for others platforms.
 * GNU Makefile
 * Python bdist to compile and build py files
 * sphinx to generate documentation and man page
-* Further Fedora Copr to build RPM
+* Fedora Copr to build RPM
+
+main purpose to try: tito, mock and copr
 
 Only tested on **Fedora 24**
 
@@ -29,7 +31,7 @@ Steps
 
 1. clone the repo:
 
-	$ git clone https://github.com/eduardocerqueira/demo.git
+	$ git clone https://github.com/eduardocerqueira/pkgpoc.git
 
 2. Make sure you have all packages otherwise install:
 
@@ -59,21 +61,21 @@ you should get an output similar this:
 
 4. Installing
 
-	$sudo dnf install rpmbuild/RPMS/x86_64/demo-0.0.1-1.fc24.x86_64.rpm
+	$sudo dnf install rpmbuild/RPMS/x86_64/pkgpoc-0.0.1-1.fc24.x86_64.rpm
 
 5. check man page
 
 After install you can check man page:
 
-	$ man demo
+	$ man pkgpoc
 
 6. run
 
-	$ demo --help
+	$ pkgpoc --help
 
 7. uninstall
 
-	$ sudo dnf remove demo -y
+	$ sudo dnf remove pkgpoc -y
 
 
 Multi-architecture/operating system Support
@@ -82,25 +84,25 @@ Multi-architecture/operating system Support
 Using mock to build rpm for F24
 
 	$ make srpm
-	$ mock -r fedora-24-x86_64 rpmbuild/SRPMS/demo-0.0.1-1.src.rpm
+	$ mock -r fedora-24-x86_64 rpmbuild/SRPMS/pkgpoc-0.0.1-1.src.rpm
 
 should get something like this:
 
 	Finish: run
-	[ecerquei@dev demo]$ ls /var/lib/mock/fedora-24-x86_64/result
-	build.log  demo-0.0.1-1.src.rpm  demo-0.0.1-1.x86_64.rpm  root.log  state.log
+	[ecerquei@dev pkgpoc]$ ls /var/lib/mock/fedora-24-x86_64/result
+	build.log  pkgpoc-0.0.1-1.src.rpm  pkgpoc-0.0.1-1.x86_64.rpm  root.log  state.log
 
 
 Using mock to build rpm for EPEL7, CentOS
 
 	$ make srpm
-	$ mock --dnf -r epel-7-x86_64 rpmbuild/SRPMS/demo-0.0.1-1.src.rpm
+	$ mock --dnf -r epel-7-x86_64 rpmbuild/SRPMS/pkgpoc-0.0.1-1.src.rpm
 
 should get something like this:
 
-	Finish: rpmbuild demo-0.0.1-1.src.rpm
-	Finish: build phase for demo-0.0.1-1.src.rpm
-	INFO: Done(rpmbuild/SRPMS/demo-0.0.1-1.src.rpm) Config(epel-7-x86_64) 0 minutes 29 seconds
+	Finish: rpmbuild pkgpoc-0.0.1-1.src.rpm
+	Finish: build phase for pkgpoc-0.0.1-1.src.rpm
+	INFO: Done(rpmbuild/SRPMS/pkgpoc-0.0.1-1.src.rpm) Config(epel-7-x86_64) 0 minutes 29 seconds
 	INFO: Results and/or logs in: /var/lib/mock/epel-7-x86_64/result
 
 
@@ -109,11 +111,11 @@ for more info read: http://www.rpm.org/max-rpm/s1-rpm-philosophy-multi-architect
 COPR
 ======
 
-Follow steps in Copr to create your account and a new project, in my case it is demo. Install copr-cli and submit a build:
+Follow steps in Copr to create your account and a new project, in my case it is pkgpoc. Install copr-cli and submit a build:
 
-	$ copr-cli build demo https://github.com/eduardocerqueira/demo/raw/master/copr/demo-0.0.1-1.src.rpm
+	$ copr-cli build pkgpoc https://github.com/eduardocerqueira/pkgpoc/raw/master/copr/pkgpoc-0.0.1-1.src.rpm
 
-https://copr.fedorainfracloud.org/coprs/eduardocerqueira/demo/build/471574/
+https://copr.fedorainfracloud.org/coprs/eduardocerqueira/pkgpoc/build/471574/
 
 
 OUTPUTS
@@ -128,7 +130,7 @@ building
 
 	#rpmdev-setuptree into project folder
 	make -C docs/ html
-	make[1]: Entering directory '/home/ecerquei/git/demo/docs'
+	make[1]: Entering directory '/home/ecerquei/git/pkgpoc/docs'
 	sphinx-build -b html -d build/doctrees   source build/html
 	Running Sphinx v1.4.8
 	loading pickled environment... done
@@ -140,9 +142,9 @@ building
 	build succeeded.
 
 	Build finished. The HTML pages are in build/html.
-	make[1]: Leaving directory '/home/ecerquei/git/demo/docs'
+	make[1]: Leaving directory '/home/ecerquei/git/pkgpoc/docs'
 	make -C docs/ man
-	make[1]: Entering directory '/home/ecerquei/git/demo/docs'
+	make[1]: Entering directory '/home/ecerquei/git/pkgpoc/docs'
 	sphinx-build -b man -d build/doctrees   source build/man
 	Running Sphinx v1.4.8
 	loading pickled environment... done
@@ -150,115 +152,115 @@ building
 	building [man]: all manpages
 	updating environment: 0 added, 0 changed, 0 removed
 	looking for now-outdated files... none found
-	writing... Demo.1 { development release }
+	writing... pkgpoc.1 { development release }
 	build succeeded.
 
 	Build finished. The manual pages are in build/man.
-	make[1]: Leaving directory '/home/ecerquei/git/demo/docs'
-	cp docs/build/man/Demo.1 Demo.1
+	make[1]: Leaving directory '/home/ecerquei/git/pkgpoc/docs'
+	cp docs/build/man/pkgpoc.1 pkgpoc.1
 	sed \
 		-e 's/@RPM_VERSION@/0.0.1/g' \
 		-e 's/@RPM_RELEASE@/1.fc24/g' \
-		< demo.spec.in \
-		> /home/ecerquei/git/demo/rpmbuild/SPECS/demo.spec
-	git ls-files | tar --transform='s|^|demo/|' \
+		< pkgpoc.spec.in \
+		> /home/ecerquei/git/pkgpoc/rpmbuild/SPECS/pkgpoc.spec
+	git ls-files | tar --transform='s|^|pkgpoc/|' \
 	--files-from /proc/self/fd/0 \
-	-czf /home/ecerquei/git/demo/rpmbuild/SOURCES/demo-0.0.1.tar.gz /home/ecerquei/git/demo/rpmbuild/SPECS/demo.spec
+	-czf /home/ecerquei/git/pkgpoc/rpmbuild/SOURCES/pkgpoc-0.0.1.tar.gz /home/ecerquei/git/pkgpoc/rpmbuild/SPECS/pkgpoc.spec
 	tar: Removing leading `/' from member names
-	rpmbuild --define="_topdir /home/ecerquei/git/demo/rpmbuild" --define "_specdir /home/ecerquei/git/demo/rpmbuild/SPECS" \
-	-ts /home/ecerquei/git/demo/rpmbuild/SOURCES/demo-0.0.1.tar.gz
-	Wrote: /home/ecerquei/git/demo/rpmbuild/SRPMS/demo-0.0.1-1.fc24.src.rpm
-	rpmbuild --define="_topdir /home/ecerquei/git/demo/rpmbuild" --rebuild /home/ecerquei/git/demo/rpmbuild/SRPMS/demo-0.0.1-1.fc24.src.rpm
-	Installing /home/ecerquei/git/demo/rpmbuild/SRPMS/demo-0.0.1-1.fc24.src.rpm
+	rpmbuild --define="_topdir /home/ecerquei/git/pkgpoc/rpmbuild" --define "_specdir /home/ecerquei/git/pkgpoc/rpmbuild/SPECS" \
+	-ts /home/ecerquei/git/pkgpoc/rpmbuild/SOURCES/pkgpoc-0.0.1.tar.gz
+	Wrote: /home/ecerquei/git/pkgpoc/rpmbuild/SRPMS/pkgpoc-0.0.1-1.fc24.src.rpm
+	rpmbuild --define="_topdir /home/ecerquei/git/pkgpoc/rpmbuild" --rebuild /home/ecerquei/git/pkgpoc/rpmbuild/SRPMS/pkgpoc-0.0.1-1.fc24.src.rpm
+	Installing /home/ecerquei/git/pkgpoc/rpmbuild/SRPMS/pkgpoc-0.0.1-1.fc24.src.rpm
 	Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.18dk9Q
 	+ umask 022
-	+ cd /home/ecerquei/git/demo/rpmbuild/BUILD
-	+ cd /home/ecerquei/git/demo/rpmbuild/BUILD
-	+ rm -rf demo
-	+ /usr/bin/gzip -dc /home/ecerquei/git/demo/rpmbuild/SOURCES/demo-0.0.1.tar.gz
+	+ cd /home/ecerquei/git/pkgpoc/rpmbuild/BUILD
+	+ cd /home/ecerquei/git/pkgpoc/rpmbuild/BUILD
+	+ rm -rf pkgpoc
+	+ /usr/bin/gzip -dc /home/ecerquei/git/pkgpoc/rpmbuild/SOURCES/pkgpoc-0.0.1.tar.gz
 	+ /usr/bin/tar -xof -
 	+ STATUS=0
 	+ '[' 0 -ne 0 ']'
-	+ cd demo
+	+ cd pkgpoc
 	+ /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w .
 	+ exit 0
 	Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.s9eJHC
 	+ umask 022
-	+ cd /home/ecerquei/git/demo/rpmbuild/BUILD
-	+ cd demo
+	+ cd /home/ecerquei/git/pkgpoc/rpmbuild/BUILD
+	+ cd pkgpoc
 	+ /usr/bin/python setup.py build
 	running build
 	running build_py
 	creating build
 	creating build/lib
-	creating build/lib/demo
-	copying demo/__init__.py -> build/lib/demo
-	copying demo/driver.py -> build/lib/demo
+	creating build/lib/pkgpoc
+	copying pkgpoc/__init__.py -> build/lib/pkgpoc
+	copying pkgpoc/driver.py -> build/lib/pkgpoc
 	running egg_info
-	creating demo.egg-info
-	writing requirements to demo.egg-info/requires.txt
-	writing demo.egg-info/PKG-INFO
-	writing top-level names to demo.egg-info/top_level.txt
-	writing dependency_links to demo.egg-info/dependency_links.txt
-	writing entry points to demo.egg-info/entry_points.txt
-	writing manifest file 'demo.egg-info/SOURCES.txt'
-	reading manifest file 'demo.egg-info/SOURCES.txt'
+	creating pkgpoc.egg-info
+	writing requirements to pkgpoc.egg-info/requires.txt
+	writing pkgpoc.egg-info/PKG-INFO
+	writing top-level names to pkgpoc.egg-info/top_level.txt
+	writing dependency_links to pkgpoc.egg-info/dependency_links.txt
+	writing entry points to pkgpoc.egg-info/entry_points.txt
+	writing manifest file 'pkgpoc.egg-info/SOURCES.txt'
+	reading manifest file 'pkgpoc.egg-info/SOURCES.txt'
 	reading manifest template 'MANIFEST.in'
-	warning: no files found matching 'docs/build/man/Demo.1'
+	warning: no files found matching 'docs/build/man/pkgpoc.1'
 	warning: no previously-included files matching '*' found under directory 'tests'
 	warning: no previously-included files matching '__pycache__' found under directory '*'
 	warning: no previously-included files matching '*.orig' found under directory '*'
 	warning: no previously-included files matching '*' found under directory 'docs'
 	warning: no previously-included files matching '.pyc' found anywhere in distribution
 	warning: no previously-included files matching '.pyo' found anywhere in distribution
-	writing manifest file 'demo.egg-info/SOURCES.txt'
+	writing manifest file 'pkgpoc.egg-info/SOURCES.txt'
 	+ exit 0
 	Executing(%install): /bin/sh -e /var/tmp/rpm-tmp.mLEPWp
 	+ umask 022
-	+ cd /home/ecerquei/git/demo/rpmbuild/BUILD
-	+ '[' /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64 '!=' / ']'
-	+ rm -rf /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64
-	++ dirname /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64
-	+ mkdir -p /home/ecerquei/git/demo/rpmbuild/BUILDROOT
-	+ mkdir /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64
-	+ cd demo
-	+ /usr/bin/python setup.py install -O1 --skip-build --root /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64
+	+ cd /home/ecerquei/git/pkgpoc/rpmbuild/BUILD
+	+ '[' /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64 '!=' / ']'
+	+ rm -rf /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64
+	++ dirname /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64
+	+ mkdir -p /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT
+	+ mkdir /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64
+	+ cd pkgpoc
+	+ /usr/bin/python setup.py install -O1 --skip-build --root /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64
 	running install
 	running install_lib
-	creating /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr
-	creating /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/lib
-	creating /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/lib/python2.7
-	creating /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages
-	creating /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/demo
-	copying build/lib/demo/__init__.py -> /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/demo
-	copying build/lib/demo/driver.py -> /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/demo
-	byte-compiling /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/demo/__init__.py to __init__.pyc
-	byte-compiling /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/demo/driver.py to driver.pyc
+	creating /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr
+	creating /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/lib
+	creating /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/lib/python2.7
+	creating /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages
+	creating /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/pkgpoc
+	copying build/lib/pkgpoc/__init__.py -> /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/pkgpoc
+	copying build/lib/pkgpoc/driver.py -> /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/pkgpoc
+	byte-compiling /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/pkgpoc/__init__.py to __init__.pyc
+	byte-compiling /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/pkgpoc/driver.py to driver.pyc
 	writing byte-compilation script '/tmp/tmpQFzcTZ.py'
 	/usr/bin/python -O /tmp/tmpQFzcTZ.py
 	removing /tmp/tmpQFzcTZ.py
 	running install_egg_info
 	running egg_info
-	writing requirements to demo.egg-info/requires.txt
-	writing demo.egg-info/PKG-INFO
-	writing top-level names to demo.egg-info/top_level.txt
-	writing dependency_links to demo.egg-info/dependency_links.txt
-	writing entry points to demo.egg-info/entry_points.txt
-	reading manifest file 'demo.egg-info/SOURCES.txt'
+	writing requirements to pkgpoc.egg-info/requires.txt
+	writing pkgpoc.egg-info/PKG-INFO
+	writing top-level names to pkgpoc.egg-info/top_level.txt
+	writing dependency_links to pkgpoc.egg-info/dependency_links.txt
+	writing entry points to pkgpoc.egg-info/entry_points.txt
+	reading manifest file 'pkgpoc.egg-info/SOURCES.txt'
 	reading manifest template 'MANIFEST.in'
-	warning: no files found matching 'docs/build/man/Demo.1'
+	warning: no files found matching 'docs/build/man/pkgpoc.1'
 	warning: no previously-included files matching '*' found under directory 'tests'
 	warning: no previously-included files matching '__pycache__' found under directory '*'
 	warning: no previously-included files matching '*.orig' found under directory '*'
 	warning: no previously-included files matching '*' found under directory 'docs'
 	warning: no previously-included files matching '.pyc' found anywhere in distribution
 	warning: no previously-included files matching '.pyo' found anywhere in distribution
-	writing manifest file 'demo.egg-info/SOURCES.txt'
-	Copying demo.egg-info to /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/demo-0.0.1-py2.7.egg-info
+	writing manifest file 'pkgpoc.egg-info/SOURCES.txt'
+	Copying pkgpoc.egg-info to /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/lib/python2.7/site-packages/pkgpoc-0.0.1-py2.7.egg-info
 	running install_scripts
-	Installing demo script to /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/bin
-	+ mkdir -p /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64//usr/share/man/man1
-	+ cp Demo.1 /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64//usr/share/man/man1/Demo.1
+	Installing pkgpoc script to /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/bin
+	+ mkdir -p /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64//usr/share/man/man1
+	+ cp pkgpoc.1 /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64//usr/share/man/man1/pkgpoc.1
 	+ '[' '%{buildarch}' = noarch ']'
 	+ QA_CHECK_RPATHS=1
 	+ case "${QA_CHECK_RPATHS:-}" in
@@ -269,42 +271,42 @@ building
 	+ /usr/lib/rpm/brp-strip-comment-note /usr/bin/strip /usr/bin/objdump
 	+ /usr/lib/rpm/brp-strip-static-archive /usr/bin/strip
 	+ /usr/lib/rpm/brp-python-bytecompile /usr/bin/python 1
-	Bytecompiling .py files below /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/lib/python2.7 using /usr/bin/python2.7
+	Bytecompiling .py files below /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/lib/python2.7 using /usr/bin/python2.7
 	+ /usr/lib/rpm/brp-python-hardlink
 	+ /usr/lib/rpm/redhat/brp-java-repack-jars
-	Processing files: demo-0.0.1-1.fc24.x86_64
+	Processing files: pkgpoc-0.0.1-1.fc24.x86_64
 	Executing(%doc): /bin/sh -e /var/tmp/rpm-tmp.ApnjFf
 	+ umask 022
-	+ cd /home/ecerquei/git/demo/rpmbuild/BUILD
-	+ cd demo
-	+ DOCDIR=/home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/share/doc/demo
+	+ cd /home/ecerquei/git/pkgpoc/rpmbuild/BUILD
+	+ cd pkgpoc
+	+ DOCDIR=/home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/share/doc/pkgpoc
 	+ export DOCDIR
-	+ /usr/bin/mkdir -p /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/share/doc/demo
-	+ cp -pr README.md /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/share/doc/demo
-	+ cp -pr AUTHORS /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64/usr/share/doc/demo
+	+ /usr/bin/mkdir -p /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/share/doc/pkgpoc
+	+ cp -pr README.md /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/share/doc/pkgpoc
+	+ cp -pr AUTHORS /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64/usr/share/doc/pkgpoc
 	+ exit 0
-	Provides: demo = 0.0.1-1.fc24 demo(x86-64) = 0.0.1-1.fc24
+	Provides: pkgpoc = 0.0.1-1.fc24 pkgpoc(x86-64) = 0.0.1-1.fc24
 	Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(FileDigests) <= 4.6.0-1 rpmlib(PartialHardlinkSets) <= 4.0.4-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
 	Requires: /usr/bin/python python(abi) = 2.7
-	Checking for unpackaged file(s): /usr/lib/rpm/check-files /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64
-	Wrote: /home/ecerquei/git/demo/rpmbuild/RPMS/x86_64/demo-0.0.1-1.fc24.x86_64.rpm
+	Checking for unpackaged file(s): /usr/lib/rpm/check-files /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64
+	Wrote: /home/ecerquei/git/pkgpoc/rpmbuild/RPMS/x86_64/pkgpoc-0.0.1-1.fc24.x86_64.rpm
 	Executing(%clean): /bin/sh -e /var/tmp/rpm-tmp.HG9OL5
 	+ umask 022
-	+ cd /home/ecerquei/git/demo/rpmbuild/BUILD
-	+ cd demo
-	+ /usr/bin/rm -rf /home/ecerquei/git/demo/rpmbuild/BUILDROOT/demo-0.0.1-1.fc24.x86_64
+	+ cd /home/ecerquei/git/pkgpoc/rpmbuild/BUILD
+	+ cd pkgpoc
+	+ /usr/bin/rm -rf /home/ecerquei/git/pkgpoc/rpmbuild/BUILDROOT/pkgpoc-0.0.1-1.fc24.x86_64
 	+ exit 0
 	Executing(--clean): /bin/sh -e /var/tmp/rpm-tmp.YJnPSV
 	+ umask 022
-	+ cd /home/ecerquei/git/demo/rpmbuild/BUILD
-	+ rm -rf demo
+	+ cd /home/ecerquei/git/pkgpoc/rpmbuild/BUILD
+	+ rm -rf pkgpoc
 	+ exit 0
 
 
 installing
 ----------
 
-	$sudo dnf install rpmbuild/RPMS/x86_64/demo-0.0.1-1.fc24.x86_64.rpm
+	$sudo dnf install rpmbuild/RPMS/x86_64/pkgpoc-0.0.1-1.fc24.x86_64.rpm
 
 	Last metadata expiration check: 2:11:27 ago on Mon Oct 31 08:23:22 2016.
 	Dependencies resolved.
@@ -312,7 +314,7 @@ installing
 	 Package                                       Arch                                            Version                                                 Repository                                             Size
 	===================================================================================================================================================================================================================
 	Installing:
-	 demo                                          x86_64                                          0.0.1-1.fc24                                            @commandline                                           14 k
+	 pkgpoc                                          x86_64                                          0.0.1-1.fc24                                            @commandline                                           14 k
 
 	Transaction Summary
 	===================================================================================================================================================================================================================
